@@ -105,6 +105,7 @@ namespace Hr_Portal.Controllers
             }
 
             resumeModel.Dates = DateTime.Now;
+            resumeModel.Status = "Update";
 
             _context.Resumes.Add(resumeModel);
             await _context.SaveChangesAsync();
