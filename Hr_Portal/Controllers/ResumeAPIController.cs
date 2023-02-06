@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hr_Portal.Models;
 using Microsoft.Extensions.Hosting;
+using Azure;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Hr_Portal.Controllers
 {
@@ -79,6 +81,23 @@ namespace Hr_Portal.Controllers
                     throw;
                 }
             }
+
+            return Ok();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchResumeModel(int id, [FromBody] JsonPatchDocument<ResumeModel> resumeModel)
+        {
+            var user = await _context.Resumes.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            resumeModel.ApplyTo(user);
+            await _context.SaveChangesAsync();
+            
 
             return NoContent();
         }
