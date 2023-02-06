@@ -45,4 +45,10 @@ namespace Hr_Portal.Models
         [NotMapped]
         public IFormFile? ResumeFile { get; set; }
     }
+
+    public class ResumeStatus
+    {
+        public int Id { get; set; }
+        public string Status { get; set; }
+    }
 }

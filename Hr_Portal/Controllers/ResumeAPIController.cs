@@ -57,14 +57,17 @@ namespace Hr_Portal.Controllers
         // PUT: api/ResumeAPI/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutResumeModel(int id, ResumeModel resumeModel)
+        public async Task<IActionResult> PutResumeModel(int id, ResumeStatus _resumeStatus)
         {
-            if (id != resumeModel.Id)
+            if (id != _resumeStatus.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(resumeModel).State = EntityState.Modified;
+            ResumeModel resumemodel = _context.Resumes.Find(id);
+            resumemodel.Status = resumemodel.Status;
+
+            _context.Entry(resumemodel).State = EntityState.Modified;
 
             try
             {
