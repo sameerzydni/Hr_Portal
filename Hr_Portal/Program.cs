@@ -1,4 +1,5 @@
 using Hr_Portal.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,15 +8,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews() .AddNewtonsoftJson();
 builder.Services.AddCors();
 builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("NewConnection")));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-}
+//if (!app.Environment.IsDevelopment())
+//{
+//    app.UseDeveloperExceptionPage();
+//    app.UseExceptionHandler("/Home/Error");
+//    app.UseHsts();
+//}
+
+app.UseDeveloperExceptionPage();
+
+app.UseHsts();
 
 app.UseCors(options =>
 options.WithOrigins("*")
