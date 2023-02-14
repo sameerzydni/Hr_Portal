@@ -65,7 +65,7 @@ namespace Hr_Portal.Controllers
             }
 
             ResumeModel resumemodel = _context.Resumes.Find(id);
-            resumemodel.Status = resumemodel.Status;
+            resumemodel.Status = _resumeStatus.Status;
 
             _context.Entry(resumemodel).State = EntityState.Modified;
 
@@ -108,26 +108,30 @@ namespace Hr_Portal.Controllers
         // POST: api/ResumeAPI
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ResumeModel>> PostResumeModel([FromForm][Bind("Id,FirstName,LastName,Email,ContactNo,Dates,Qualification,SkillSet,Experience,Reference,Status,Comments,ResumeFile")] ResumeModel resumeModel)
+        public async Task<ActionResult<ResumeModel>> PostResumeModel([FromForm][Bind("Id,FirstName,LastName,Email,ContactNo,Dates,Qualification,SkillSet,Experience,Reference,Status,Comments,ResumeFile, ResumeFilePath")] ResumeModel resumeModel)
         {
           if (_context.Resumes == null)
           {
               return Problem("Entity set 'AppDbContext.Resumes'  is null.");
           }
 
-            //Save the file into wwwrrot/Files
-            string wwwRootPath = _hostEnvironment.WebRootPath;
-            string fileName = Path.GetFileNameWithoutExtension(resumeModel.ResumeFile.FileName);
-            string extension = Path.GetExtension(resumeModel.ResumeFile.FileName);
-            resumeModel.ResumeName = fileName = fileName + Guid.NewGuid().ToString().Substring(0, 4) + '_' + DateTime.Now.ToString("dd" + '-' + "MM" + '-' + "yy") + extension;
-            string path = Path.Combine(wwwRootPath + "/Files/", fileName);
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            if (resumeModel.ResumeFile != null)
             {
-                await resumeModel.ResumeFile.CopyToAsync(fileStream);
+                //Save the file into wwwrrot/Files
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(resumeModel.ResumeFile.FileName);
+                string extension = Path.GetExtension(resumeModel.ResumeFile.FileName);
+                resumeModel.ResumeName = fileName = fileName + Guid.NewGuid().ToString().Substring(0, 4) + '_' + DateTime.Now.ToString("dd" + '-' + "MM" + '-' + "yy") + extension;
+                string path = Path.Combine(wwwRootPath + "/Files/", fileName);
+                resumeModel.ResumeFilePath = Path.Combine("/Files/", fileName); 
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await resumeModel.ResumeFile.CopyToAsync(fileStream);
+                }
             }
 
-            resumeModel.Dates = DateTime.Now;
-            resumeModel.Status = "Update";
+            //resumeModel.Dates = DateTime.Now;
+            //resumeModel.Status = "Update";
 
             _context.Resumes.Add(resumeModel);
             await _context.SaveChangesAsync();

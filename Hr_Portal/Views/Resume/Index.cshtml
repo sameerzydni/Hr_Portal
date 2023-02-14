@@ -48,6 +48,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.ResumeName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResumeFilePath)
+            </th>
             <th></th>
             <th></th>
             <th></th>
@@ -91,6 +94,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ResumeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResumeFilePath)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

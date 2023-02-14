@@ -19,7 +19,7 @@ namespace Hr_Portal.Models
 
         public long ContactNo { get; set; }
 
-        public DateTime? Dates { get; set; }
+        public DateTime? Dates { get; set; } = DateTime.Now;
 
         [Column(TypeName = "nvarchar(30)")]
         public string Qualification { get; set; }
@@ -34,17 +34,22 @@ namespace Hr_Portal.Models
         public string Reference { get; set; }
 
         [Column(TypeName = "nvarchar(30)")]
-        public string? Status { get; set; }
+        public string? Status { get; set; } = "Update";
 
         [Column(TypeName = "nvarchar(MAX)")]
         public string? Comments { get; set; }
 
-        [Column(TypeName = "nvarchar(50)")]
+        [Column(TypeName = "nvarchar(255)")]
         public string? ResumeName { get; set; }
+
+        [Column(TypeName = "nvarchar(255)")]
+        public string? ResumeFilePath { get; set; }
 
         [NotMapped]
         public IFormFile? ResumeFile { get; set; }
     }
+
+
 
     public class ResumeStatus
     {

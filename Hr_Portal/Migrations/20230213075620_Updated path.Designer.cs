@@ -4,6 +4,7 @@ using Hr_Portal.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HrPortal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230213075620_Updated path")]
+    partial class Updatedpath
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,10 +88,10 @@ namespace HrPortal.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("ResumeFilePath")
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ResumeName")
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("SkillSet")
                         .IsRequired()

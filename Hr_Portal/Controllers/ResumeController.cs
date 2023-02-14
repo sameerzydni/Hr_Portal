@@ -62,18 +62,22 @@ namespace Hr_Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Save the file into wwwrrot/Files
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(resumeModel.ResumeFile.FileName);
-                string extension = Path.GetExtension(resumeModel.ResumeFile.FileName);
-                resumeModel.ResumeName = fileName = fileName + Guid.NewGuid().ToString().Substring(0, 4) + '_' + DateTime.Now.ToString("dd" + '-' + "MM" + '-' + "yy") + extension;
-                string path = Path.Combine(wwwRootPath + "/Files/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                if (resumeModel.ResumeFile != null)
                 {
-                    await resumeModel.ResumeFile.CopyToAsync(fileStream);
+                    //Save the file into wwwrrot/Files
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(resumeModel.ResumeFile.FileName);
+                    string extension = Path.GetExtension(resumeModel.ResumeFile.FileName);
+                    resumeModel.ResumeName = fileName = fileName + Guid.NewGuid().ToString().Substring(0, 4) + '_' + DateTime.Now.ToString("dd" + '-' + "MM" + '-' + "yy") + extension;
+                    string path = Path.Combine(wwwRootPath + "/Files/", fileName);
+                    resumeModel.ResumeFilePath =  Path.Combine("/Files/", fileName);;
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await resumeModel.ResumeFile.CopyToAsync(fileStream);
+                    }
                 }
 
-                resumeModel.Dates = DateTime.Now;
+                //resumeModel.Dates = DateTime.Now;
 
 
                 _context.Add(resumeModel);
