@@ -123,7 +123,8 @@ namespace Hr_Portal.Controllers
                 string extension = Path.GetExtension(resumeModel.ResumeFile.FileName);
                 resumeModel.ResumeName = fileName = fileName + Guid.NewGuid().ToString().Substring(0, 4) + '_' + DateTime.Now.ToString("dd" + '-' + "MM" + '-' + "yy") + extension;
                 string path = Path.Combine(wwwRootPath + "/Files/", fileName);
-                resumeModel.ResumeFilePath = Path.Combine("/Files/", fileName); 
+                //resumeModel.ResumeFilePath = Path.Combine("/Files/", fileName); 
+                resumeModel.ResumeFilePath = Request.Scheme + "://" + Request.Host + "/Files/" + fileName;
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await resumeModel.ResumeFile.CopyToAsync(fileStream);
