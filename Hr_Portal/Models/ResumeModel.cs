@@ -45,6 +45,10 @@ namespace Hr_Portal.Models
         [Column(TypeName = "nvarchar(255)")]
         public string? ResumeFilePath { get; set; }
 
+        [Column(TypeName ="nvarchar(30)")]
+        public string? TestTaken { get; set; }
+        public int? Score { get; set; }
+
         [NotMapped]
         public IFormFile? ResumeFile { get; set; }
     }

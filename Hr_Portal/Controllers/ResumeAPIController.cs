@@ -108,7 +108,7 @@ namespace Hr_Portal.Controllers
         // POST: api/ResumeAPI
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ResumeModel>> PostResumeModel([FromForm][Bind("Id,FirstName,LastName,Email,ContactNo,Dates,Qualification,SkillSet,Experience,Reference,Status,Comments,ResumeFile, ResumeFilePath")] ResumeModel resumeModel)
+        public async Task<ActionResult<ResumeModel>> PostResumeModel([FromForm][Bind("Id,FirstName,LastName,Email,ContactNo,Dates,Qualification,SkillSet,Experience,Reference,Status,Comments,ResumeFile, ResumeFilePath, TestTaken, Score")] ResumeModel resumeModel)
         {
           if (_context.Resumes == null)
           {
