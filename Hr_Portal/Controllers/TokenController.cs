@@ -36,9 +36,9 @@ namespace Hr_Portal.Controllers
                         new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("UserId", user.Id.ToString()),
-                        new Claim("DisplayName", user.FirstName),
-                        new Claim("UserName", user.LastName),
+                        new Claim("Id", user.Id.ToString()),
+                        new Claim("FirstName", user.FirstName),
+                        new Claim("LastName", user.LastName),
                         new Claim("Email", user.Email)
                     };
 
@@ -48,7 +48,7 @@ namespace Hr_Portal.Controllers
                         _configuration["Jwt:Issuer"],
                         _configuration["Jwt:Audience"],
                         claims,
-                        expires: DateTime.UtcNow.AddMinutes(10),
+                        expires: DateTime.UtcNow.AddMinutes(5),
                         signingCredentials: signIn);
 
                     return Ok(new JwtSecurityTokenHandler().WriteToken(token));

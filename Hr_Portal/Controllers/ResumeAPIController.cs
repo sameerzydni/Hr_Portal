@@ -149,12 +149,17 @@ namespace Hr_Portal.Controllers
                 return NotFound();
             }
             var resumeModel = await _context.Resumes.FindAsync(id);
-            if (resumeModel == null)
+            if (resumeModel != null)
             {
-                return NotFound();
-            }
+                // Delete the file from folder 
+                var imagePath = Path.Combine(_hostEnvironment.WebRootPath, "Files", resumeModel.ResumeName);
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
 
-            _context.Resumes.Remove(resumeModel);
+                _context.Resumes.Remove(resumeModel);
+            }
             await _context.SaveChangesAsync();
 
             return NoContent();
