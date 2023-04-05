@@ -110,10 +110,10 @@ namespace Hr_Portal.Controllers
         [HttpPost]
         public async Task<ActionResult<ResumeModel>> PostResumeModel([FromForm][Bind("Id,FirstName,LastName,Email,ContactNo,Dates,Qualification,SkillSet,Experience,Reference,Status,Comments,ResumeFile, ResumeFilePath, TestTaken, Score")] ResumeModel resumeModel)
         {
-          if (_context.Resumes == null)
-          {
-              return Problem("Entity set 'AppDbContext.Resumes'  is null.");
-          }
+            if (_context.Resumes == null)
+            {
+                return Problem("Entity set 'AppDbContext.Resumes'  is null.");
+            }
 
             if (resumeModel.ResumeFile != null)
             {
@@ -131,13 +131,20 @@ namespace Hr_Portal.Controllers
                 }
             }
 
-            //resumeModel.Dates = DateTime.Now;
-            //resumeModel.Status = "Update";
+            // Checking for existing email
+            var res = await _context.Resumes.Where(x => x.Email == resumeModel.Email).FirstOrDefaultAsync();
 
-            _context.Resumes.Add(resumeModel);
-            await _context.SaveChangesAsync();
+            if (res != null)
+            {
+                return BadRequest("Email already exist");
+            }
+            else
+            {
+                _context.Resumes.Add(resumeModel);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetResumeModel", new { id = resumeModel.Id }, resumeModel);
+                return CreatedAtAction("GetResumeModel", new { id = resumeModel.Id }, resumeModel);
+            }
         }
 
         // DELETE: api/ResumeAPI/5
